@@ -11,7 +11,7 @@ import (
 // RetrieveCredentials() gets HTTP Basic Auth credentials from a HTTP request
 // Courtesty goes to https://github.com/goji/httpauth
 // See also http://golang.org/pkg/net/http/#Request.SetBasicAuth
-func RetrieveCredentials(r *http.Request) (username, password []byte, err error) {
+func Get(r *http.Request) (username, password []byte, err error) {
 	// Retrieve the Authorization header and check whether it contains basic auth information
 	const basicScheme string = "Basic "
 	auth := r.Header.Get("Authorization")
