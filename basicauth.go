@@ -32,7 +32,7 @@ func Get(r *http.Request) (username, password []byte, err error) {
 	// allowable characters in the password.
 	cred := bytes.SplitN(str, []byte(":"), 2)
 	if len(cred) != 2 {
-		err = errors.New("No valid basic auth scheme found")
+		err = errors.New("Invalid Authorization header")
 		return
 	}
 
