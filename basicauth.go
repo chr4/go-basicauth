@@ -31,6 +31,11 @@ func RetrieveCredentials(r *http.Request) (username, password []byte, err error)
 	// of the password. Note that the RFC2617 standard does not place any limitations on
 	// allowable characters in the password.
 	cred := bytes.SplitN(str, []byte(":"), 2)
+	if len(cred) != 2 {
+		err = errors.New("No valid basic auth scheme found")
+		return
+	}
+
 	username, password = cred[0], cred[1]
 	return
 }
