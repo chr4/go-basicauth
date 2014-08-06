@@ -16,12 +16,14 @@ func RetrieveCredentials(r *http.Request) (username, password []byte, err error)
 	auth := r.Header.Get("Authorization")
 
 	if !strings.HasPrefix(auth, basicScheme) {
-		return "", "", errors.New("No basic auth scheme found")
+		err = errors.New("No basic auth scheme found")
+		return
 	}
 
 	str, err := base64.StdEncoding.DecodeString(auth[len(basicScheme):])
 	if err != nil {
-		return "", "", errors.New("No valid base64 data in basic auth scheme found")
+		err = errors.New("No valid base64 data in basic auth scheme found")
+		return
 	}
 
 	// Split on the first ":" character only, with any subsequent colons assumed to be part
@@ -29,5 +31,6 @@ func RetrieveCredentials(r *http.Request) (username, password []byte, err error)
 	// allowable characters in the password.
 	// Also make username lowercase
 	cred := bytes.SplitN(str, []byte(":"), 2)
-	return cred[0], cred[1], nil
+	username, password = cred[0], cred[1]
+	return
 }
