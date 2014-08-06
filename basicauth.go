@@ -10,6 +10,7 @@ import (
 
 // RetrieveCredentials() gets HTTP Basic Auth credentials from a HTTP request
 // Courtesty goes to https://github.com/goji/httpauth
+// See also http://golang.org/pkg/net/http/#Request.SetBasicAuth
 func RetrieveCredentials(r *http.Request) (username, password []byte, err error) {
 	// Retrieve the Authorization header and check whether it contains basic auth information
 	const basicScheme string = "Basic "
@@ -29,7 +30,6 @@ func RetrieveCredentials(r *http.Request) (username, password []byte, err error)
 	// Split on the first ":" character only, with any subsequent colons assumed to be part
 	// of the password. Note that the RFC2617 standard does not place any limitations on
 	// allowable characters in the password.
-	// Also make username lowercase
 	cred := bytes.SplitN(str, []byte(":"), 2)
 	username, password = cred[0], cred[1]
 	return
